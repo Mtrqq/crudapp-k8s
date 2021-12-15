@@ -3,7 +3,6 @@ version: '3.8'
 services:
   web:
     build: ./src
-    command: --port 8000
     volumes:
       - ./src/:/usr/src/app/
     ports:

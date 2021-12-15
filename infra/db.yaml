@@ -1,0 +1,43 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: crudapp-db
+spec:
+  selector:
+    matchLabels:
+      app: crudapp-db
+  template:
+    metadata:
+      labels:
+        app: crudapp-db
+    spec:
+      containers:
+        - name: database
+          image: postgres:13-alpine
+          resources:
+            limits:
+              memory: "500Mi"
+              cpu: "200m"
+          env:
+            - name: POSTGRES_PASSWORD
+              value: "admin"
+            - name: POSTGRES_USER
+              value: "admin"
+            - name: POSTGRES_DB
+              value: "notes-db"
+          ports:
+            - containerPort: 5432
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: db-service
+spec:
+  selector:
+    app: crudapp-db
+  ports:
+    - port: 5432
+      targetPort: 5432
+---
+

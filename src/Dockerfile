@@ -23,4 +23,5 @@ RUN set -eux \
 # copy project
 COPY . /usr/src/app/
 
-ENTRYPOINT [ "uvicorn", "app.main:app", "--host", "0.0.0.0" ]
+ENTRYPOINT [ "uvicorn", "app.main:app"]
+CMD [ "--host", "0.0.0.0",  "--port", "8000"]

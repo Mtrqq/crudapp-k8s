@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: "crudapp-api"
+spec:
+  ports:
+    - port: 80
+      targetPort: 8000
+  selector:
+    app: crudapp-api
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: crudapp-api
+spec:
+  selector:
+    matchLabels:
+      app: crudapp-api
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: crudapp-api
+    spec:
+      containers:
+        - name: api
+          image: mtrqq/crudapp-api:latest
+          env:
+            - name: DATABASE_URL
+              value: postgresql://admin:admin@db-service/notes-db
+          ports:
+            - containerPort: 8000
